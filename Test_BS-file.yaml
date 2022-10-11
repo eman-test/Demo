@@ -1,0 +1,1158 @@
+apiVersion: business_service.vfcdaas/v1
+name: VF-CDAAS
+users:
+  - username: david.newhook@vodafone.com
+    ad_username: david.newhook
+    role: admin
+  - username: vfcdaas@vodafone.com
+    ad_username: vfcdaas
+    functional_account: true
+  - username: mohamed.ramadan1@vodafone.com
+    ad_username: RamadanM5
+    role: admin
+  - username: dalia.ezzat@vodafone.com
+    ad_username: EzzatD
+    role: admin 
+  - username: mai.khattab1@vodafone.com
+    ad_username: KhattabM2
+    role: admin
+  - username: vladimir.novakovic@vodafone.com
+    ad_username: NovakovicV
+    role: admin
+  - username: soad.mahmoud@vodafone.com
+    ad_username: V19SMahmoud38
+    github_username: Soad-Mahmoud
+    role: admin
+  - username: eman.gamal1@vodafone.com
+    ad_username: gamale
+    github_username: eman-gamal1
+    role: admin
+  - username: hadeer.adel@vodafone.com
+    ad_username: adelh2
+    github_username: hadeer-adel
+    role: admin
+  - username: dima.elkhosos@vodafone.com
+    ad_username: elkhososd
+    role: admin
+  - username: VFGROUPSVC.vfcdaasd@vodafone.com
+    ad_username: VFGROUPSVC.vfcdaasd
+    service_account: true
+  - username: VFGROUPSVC-vfcdaasc@vodafone.com
+    ad_username: VFGROUPSVC-vfcdaasc
+    service_account: true
+  - username: VFSVC-CDaaS-SA1@vodafone.com
+    ad_username: VFSVC-CDaaS-SA1
+    service_account: true
+  - username: VFSVC.CDaaS-SA2@vodafone.com
+    ad_username: VFSVC-CDaaS-SA2
+    role: admin
+  #- username: VSSISVC.GKS-GREEN@vodafone.com
+  #  ad_username: VSSISVC.GKS-GREEN
+  #  service_account: true
+roles:
+  - name: VF-CDAAS_DEV
+    users:
+      - david.newhook@vodafone.com
+      - mai.khattab1@vodafone.com
+      - vladimir.novakovic@vodafone.com
+      - dalia.ezzat@vodafone.com
+      - soad.mahmoud@vodafone.com
+      - eman.gamal1@vodafone.com
+      - hadeer.adel@vodafone.com
+      - dima.elkhosos@vodafone.com
+  - name: VF-CDAAS_OPS
+    users:
+      - david.newhook@vodafone.com
+      - mai.khattab1@vodafone.com
+      - vladimir.novakovic@vodafone.com
+      - dalia.ezzat@vodafone.com
+      - soad.mahmoud@vodafone.com
+      - eman.gamal1@vodafone.com
+      - hadeer.adel@vodafone.com
+      - dima.elkhosos@vodafone.com
+      - VFSVC.CDaaS-SA2@vodafone.com
+  - name: VF-CDAAS_ADMIN
+    users:
+      - david.newhook@vodafone.com
+  - name: VF-CDAAS_PCS
+    users:
+      - david.newhook@vodafone.com
+  - name: VF-CDAAS_FUNCTIONAL-USERS
+    users:
+      - vfcdaas@vodafone.com
+  - name: VF-CDAAS_FUNCTIONAL-USERS-RO
+    users:
+      - VFSVC-CDaaS-SA1@vodafone.com
+  - name: VF-CDAAS_SERVICE-ACCOUNTS
+    users:
+      - VFGROUPSVC.vfcdaasd@vodafone.com     
+      - VFGROUPSVC-vfcdaasc@vodafone.com
+      #- VSSISVC.GKS-GREEN@vodafone.com
+gocd_pipeline_groups:
+  - name: VF-CDAAS-SAMPLE
+    teams:
+      - name: VF-CDAAS_DEV
+        permission: operate
+      - name: VF-CDAAS_DEV
+        permission: view
+  - name: VF-CDAAS-SERVICE-MANAGEMENT
+    teams:
+      - name: VF-CDAAS_DEV
+        permission: operate
+      - name: VF-CDAAS_DEV
+        permission: view
+      - name: PCS-GCP-DevOpsLead
+        permission: view
+harbor_projects:
+  - name: katello-foreman
+    public: false
+    prevent_vul: true
+    prevent_vul_replicas: true
+    reuse_sys_cve_allowlist: true
+    teams:
+    - name: VF-CDAAS_DEV
+      role: 4
+  - name: terraform-test-2
+    prevent_vul: true
+    prevent_vul_replicas: true
+    teams:
+    - name: VF-CDAAS_DEV
+      role: 3
+    - name: VF-CDAAS_PCS
+      role: 3      
+    - name: VF-CDAAS_OPS
+      role: 2
+    - name: VF-CDAAS_FUNCTIONAL-USERS-RO
+      role: 3
+    - name: VF-CDAAS_SERVICE-ACCOUNTS
+      role: 2      
+  - name: terraform-test-6
+    prevent_vul: false
+    prevent_vul_replicas: false
+    teams:
+    - name: VF-CDAAS_SERVICE-ACCOUNTS
+      role: 3    
+  - name: terraform-test-7
+    prevent_vul: true
+    prevent_vul_replicas: true
+    severity: low
+  - name: terraform-test-8
+    prevent_vul: true
+    prevent_vul_replicas: true
+    reuse_sys_cve_allowlist: false
+    cve_allowlist:
+      items:
+        - cve_id: RHSA-2020:2894
+        - cve_id: RHSA-2020:1022
+        - cve_id: RHSA-2020:1020
+        - cve_id: RHSA-2020:1113
+        - cve_id: RHSA-2020:1021
+        - cve_id: RHSA-2020:1011
+        - cve_id: RHSA-2020:1190
+        - cve_id: RHSA-2020:1131
+        - cve_id: CVE-2019-25013
+        - cve_id: CVE-2022-36123
+        - cve_id: CVE-2022-36946
+        - cve_id: CVE-2022-37434
+        - cve_id: DLA-1563-1
+        - cve_id: DLA-1606-1
+        - cve_id: DLA-1625-1
+        - cve_id: DLA-1744-1
+        - cve_id: DLA-1762-2
+        - cve_id: DLA-1833-2
+        - cve_id: DLA-1957-1
+        - cve_id: DLA-2424-1
+        - cve_id: DLA-2509-1
+        - cve_id: DLA-2542-1
+        - cve_id: DLA-2593-1
+        - cve_id: DLA-2759-1
+        - cve_id: DLA-2761-1
+        - cve_id: DLA-2797-1
+        - cve_id: DLA-2948-1
+        - cve_id: DLA-2963-1
+        - cve_id: DLA-3051-1
+        - cve_id: DSA-4117-1
+        - cve_id: DSA-5085-2
+        - cve_id: GHSA-v95c-p5hm-xq8f
+        - cve_id: CVE-2005-2541
+        - cve_id: CVE-2007-0086
+        - cve_id: CVE-2008-1687
+        - cve_id: CVE-2008-1688
+        - cve_id: CVE-2008-4609
+        - cve_id: CVE-2009-5155
+        - cve_id: CVE-2011-4116
+        - cve_id: CVE-2013-0337
+        - cve_id: CVE-2013-7445
+        - cve_id: CVE-2014-9761
+        - cve_id: CVE-2015-3217
+        - cve_id: CVE-2015-5180
+        - cve_id: CVE-2015-5224
+        - cve_id: CVE-2015-8385
+        - cve_id: CVE-2016-2779
+        - cve_id: CVE-2016-3191
+        - cve_id: CVE-2016-9840
+        - cve_id: CVE-2016-9841
+        - cve_id: CVE-2016-9842
+        - cve_id: CVE-2016-9843
+        - cve_id: CVE-2017-1000082
+        - cve_id: CVE-2017-1000408
+        - cve_id: CVE-2017-1000409
+        - cve_id: CVE-2017-10140
+        - cve_id: CVE-2017-10684
+        - cve_id: CVE-2017-10685
+        - cve_id: CVE-2017-11112
+        - cve_id: CVE-2017-11113
+        - cve_id: CVE-2017-11164
+        - cve_id: CVE-2017-11462
+        - cve_id: CVE-2017-11472
+        - cve_id: CVE-2017-12424
+        - cve_id: CVE-2017-12448
+        - cve_id: CVE-2017-12449
+        - cve_id: CVE-2017-12450
+        - cve_id: CVE-2017-12451
+        - cve_id: CVE-2017-12452
+        - cve_id: CVE-2017-12453
+        - cve_id: CVE-2017-12454
+        - cve_id: CVE-2017-12455
+        - cve_id: CVE-2017-12456
+        - cve_id: CVE-2017-12457
+        - cve_id: CVE-2017-12458
+        - cve_id: CVE-2017-12459
+        - cve_id: CVE-2017-12613
+        - cve_id: CVE-2017-12762
+        - cve_id: CVE-2017-12799
+        - cve_id: CVE-2017-12837
+        - cve_id: CVE-2017-12883
+        - cve_id: CVE-2017-13710
+        - cve_id: CVE-2017-13728
+        - cve_id: CVE-2017-14062
+        - cve_id: CVE-2017-14333
+        - cve_id: CVE-2017-14729
+        - cve_id: CVE-2017-14745
+        - cve_id: CVE-2017-15020
+        - cve_id: CVE-2017-15088
+        - cve_id: CVE-2017-15670
+        - cve_id: CVE-2017-15804
+        - cve_id: CVE-2017-15938
+        - cve_id: CVE-2017-15996
+        - cve_id: CVE-2017-16232
+        - cve_id: CVE-2017-16826
+        - cve_id: CVE-2017-16827
+        - cve_id: CVE-2017-16828
+        - cve_id: CVE-2017-16829
+        - cve_id: CVE-2017-16830
+        - cve_id: CVE-2017-16831
+        - cve_id: CVE-2017-16832
+        - cve_id: CVE-2017-16879
+        - cve_id: CVE-2017-16932
+        - cve_id: CVE-2017-16997
+        - cve_id: CVE-2017-17121
+        - cve_id: CVE-2017-17122
+        - cve_id: CVE-2017-17124
+        - cve_id: CVE-2017-17125
+        - cve_id: CVE-2017-17126
+        - cve_id: CVE-2017-17512
+        - cve_id: CVE-2017-17740
+        - cve_id: CVE-2017-17973
+        - cve_id: CVE-2017-18078
+        - cve_id: CVE-2017-18249
+        - cve_id: CVE-2017-18269
+        - cve_id: CVE-2017-18509
+        - cve_id: CVE-2017-20002
+        - cve_id: CVE-2017-5130
+        - cve_id: CVE-2017-5563
+        - cve_id: CVE-2017-6363
+        - cve_id: CVE-2017-7186
+        - cve_id: CVE-2017-7245
+        - cve_id: CVE-2017-7246
+        - cve_id: CVE-2017-8283
+        - cve_id: CVE-2017-8872
+        - cve_id: CVE-2017-9042
+        - cve_id: CVE-2017-9043
+        - cve_id: CVE-2017-9117
+        - cve_id: CVE-2017-9742
+        - cve_id: CVE-2017-9743
+        - cve_id: CVE-2017-9744
+        - cve_id: CVE-2017-9745
+        - cve_id: CVE-2017-9746
+        - cve_id: CVE-2017-9747
+        - cve_id: CVE-2017-9748
+        - cve_id: CVE-2017-9749
+        - cve_id: CVE-2017-9750
+        - cve_id: CVE-2017-9751
+        - cve_id: CVE-2017-9752
+        - cve_id: CVE-2017-9753
+        - cve_id: CVE-2017-9754
+        - cve_id: CVE-2017-9755
+        - cve_id: CVE-2017-9756
+        - cve_id: CVE-2017-9986
+        - cve_id: CVE-2018-1000001
+        - cve_id: CVE-2018-1000026
+        - cve_id: CVE-2018-1000168
+        - cve_id: CVE-2018-1000858
+        - cve_id: CVE-2018-1000876
+        - cve_id: CVE-2018-1122
+        - cve_id: CVE-2018-1123
+        - cve_id: CVE-2018-11236
+        - cve_id: CVE-2018-11237
+        - cve_id: CVE-2018-1124
+        - cve_id: CVE-2018-1125
+        - cve_id: CVE-2018-1126
+        - cve_id: CVE-2018-1128
+        - cve_id: CVE-2018-11813
+        - cve_id: CVE-2018-12015
+        - cve_id: CVE-2018-12020
+        - cve_id: CVE-2018-12697
+        - cve_id: CVE-2018-12698
+        - cve_id: CVE-2018-12699
+        - cve_id: CVE-2018-12886
+        - cve_id: CVE-2018-12930
+        - cve_id: CVE-2018-12931
+        - cve_id: CVE-2018-12934
+        - cve_id: CVE-2018-14404
+        - cve_id: CVE-2018-14550
+        - cve_id: CVE-2018-14553
+        - cve_id: CVE-2018-14625
+        - cve_id: CVE-2018-15686
+        - cve_id: CVE-2018-15688
+        - cve_id: CVE-2018-16428
+        - cve_id: CVE-2018-16429
+        - cve_id: CVE-2018-16864
+        - cve_id: CVE-2018-16865
+        - cve_id: CVE-2018-16871
+        - cve_id: CVE-2018-16884
+        - cve_id: CVE-2018-16890
+        - cve_id: CVE-2018-17199
+        - cve_id: CVE-2018-18281
+        - cve_id: CVE-2018-18311
+        - cve_id: CVE-2018-18483
+        - cve_id: CVE-2018-19824
+        - cve_id: CVE-2018-19931
+        - cve_id: CVE-2018-20346
+        - cve_id: CVE-2018-20506
+        - cve_id: CVE-2018-20669
+        - cve_id: CVE-2018-20796
+        - cve_id: CVE-2018-20836
+        - cve_id: CVE-2018-20843
+        - cve_id: CVE-2018-20856
+        - cve_id: CVE-2018-20969
+        - cve_id: CVE-2018-20976
+        - cve_id: CVE-2018-25020
+        - cve_id: CVE-2018-25032
+        - cve_id: CVE-2018-5709
+        - cve_id: CVE-2018-5848
+        - cve_id: CVE-2018-6323
+        - cve_id: CVE-2018-6485
+        - cve_id: CVE-2018-6543
+        - cve_id: CVE-2018-6551
+        - cve_id: CVE-2018-6797
+        - cve_id: CVE-2018-6829
+        - cve_id: CVE-2018-6913
+        - cve_id: CVE-2018-6951
+        - cve_id: CVE-2018-6952
+        - cve_id: CVE-2018-6954
+        - cve_id: CVE-2018-7208
+        - cve_id: CVE-2018-7643
+        - cve_id: CVE-2018-8740
+        - cve_id: CVE-2018-9234
+        - cve_id: CVE-2018-9465
+        - cve_id: CVE-2019-0136
+        - cve_id: CVE-2019-0145
+        - cve_id: CVE-2019-0155
+        - cve_id: CVE-2019-0211
+        - cve_id: CVE-2019-0217
+        - cve_id: CVE-2019-10081
+        - cve_id: CVE-2019-10082
+        - cve_id: CVE-2019-1010022
+        - cve_id: CVE-2019-1010023
+        - cve_id: CVE-2019-1010180
+        - cve_id: CVE-2019-10126
+        - cve_id: CVE-2019-10142
+        - cve_id: CVE-2019-10220
+        - cve_id: CVE-2019-10639
+        - cve_id: CVE-2019-11477
+        - cve_id: CVE-2019-11478
+        - cve_id: CVE-2019-11479
+        - cve_id: CVE-2019-11486
+        - cve_id: CVE-2019-11487
+        - cve_id: CVE-2019-11599
+        - cve_id: CVE-2019-11810
+        - cve_id: CVE-2019-11815
+        - cve_id: CVE-2019-12290
+        - cve_id: CVE-2019-12450
+        - cve_id: CVE-2019-12456
+        - cve_id: CVE-2019-12615
+        - cve_id: CVE-2019-12818
+        - cve_id: CVE-2019-12900
+        - cve_id: CVE-2019-13012
+        - cve_id: CVE-2019-13115
+        - cve_id: CVE-2019-13272
+        - cve_id: CVE-2019-13565
+        - cve_id: CVE-2019-13638
+        - cve_id: CVE-2019-14814
+        - cve_id: CVE-2019-14815
+        - cve_id: CVE-2019-14816
+        - cve_id: CVE-2019-14821
+        - cve_id: CVE-2019-14835
+        - cve_id: CVE-2019-14855
+        - cve_id: CVE-2019-14895
+        - cve_id: CVE-2019-14896
+        - cve_id: CVE-2019-14897
+        - cve_id: CVE-2019-14901
+        - cve_id: CVE-2019-15117
+        - cve_id: CVE-2019-15239
+        - cve_id: CVE-2019-15292
+        - cve_id: CVE-2019-1543
+        - cve_id: CVE-2019-15505
+        - cve_id: CVE-2019-15538
+        - cve_id: CVE-2019-15847
+        - cve_id: CVE-2019-15903
+        - cve_id: CVE-2019-15916
+        - cve_id: CVE-2019-15917
+        - cve_id: CVE-2019-15926
+        - cve_id: CVE-2019-15927
+        - cve_id: CVE-2019-16413
+        - cve_id: CVE-2019-16746
+        - cve_id: CVE-2019-16995
+        - cve_id: CVE-2019-17075
+        - cve_id: CVE-2019-17133
+        - cve_id: CVE-2019-17498
+        - cve_id: CVE-2019-17543
+        - cve_id: CVE-2019-17666
+        - cve_id: CVE-2019-18218
+        - cve_id: CVE-2019-18276
+        - cve_id: CVE-2019-18683
+        - cve_id: CVE-2019-18805
+        - cve_id: CVE-2019-19049
+        - cve_id: CVE-2019-19052
+        - cve_id: CVE-2019-19060
+        - cve_id: CVE-2019-19061
+        - cve_id: CVE-2019-19064
+        - cve_id: CVE-2019-19070
+        - cve_id: CVE-2019-19074
+        - cve_id: CVE-2019-19075
+        - cve_id: CVE-2019-19244
+        - cve_id: CVE-2019-19377
+        - cve_id: CVE-2019-19378
+        - cve_id: CVE-2019-19447
+        - cve_id: CVE-2019-19448
+        - cve_id: CVE-2019-19449
+        - cve_id: CVE-2019-19603
+        - cve_id: CVE-2019-19768
+        - cve_id: CVE-2019-19814
+        - cve_id: CVE-2019-19816
+        - cve_id: CVE-2019-19882
+        - cve_id: CVE-2019-19906
+        - cve_id: CVE-2019-19923
+        - cve_id: CVE-2019-19925
+        - cve_id: CVE-2019-19956
+        - cve_id: CVE-2019-19959
+        - cve_id: CVE-2019-20218
+        - cve_id: CVE-2019-2024
+        - cve_id: CVE-2019-20367
+        - cve_id: CVE-2019-20388
+        - cve_id: CVE-2019-20444
+        - cve_id: CVE-2019-20445
+        - cve_id: CVE-2019-20838
+        - cve_id: CVE-2019-2182
+        - cve_id: CVE-2019-2213
+        - cve_id: CVE-2019-2215
+        - cve_id: CVE-2019-25045
+        - cve_id: CVE-2019-3462
+        - cve_id: CVE-2019-3822
+        - cve_id: CVE-2019-3823
+        - cve_id: CVE-2019-3829
+        - cve_id: CVE-2019-3842
+        - cve_id: CVE-2019-3843
+        - cve_id: CVE-2019-3844
+        - cve_id: CVE-2019-3846
+        - cve_id: CVE-2019-3855
+        - cve_id: CVE-2019-3856
+        - cve_id: CVE-2019-3857
+        - cve_id: CVE-2019-3858
+        - cve_id: CVE-2019-3859
+        - cve_id: CVE-2019-3860
+        - cve_id: CVE-2019-3861
+        - cve_id: CVE-2019-3862
+        - cve_id: CVE-2019-3863
+        - cve_id: CVE-2019-3900
+        - cve_id: CVE-2019-5436
+        - cve_id: CVE-2019-5481
+        - cve_id: CVE-2019-5482
+        - cve_id: CVE-2019-5815
+        - cve_id: CVE-2019-5827
+        - cve_id: CVE-2019-6488
+        - cve_id: CVE-2019-6974
+        - cve_id: CVE-2019-7221
+        - cve_id: CVE-2019-8457
+        - cve_id: CVE-2019-8907
+        - cve_id: CVE-2019-8980
+        - cve_id: CVE-2019-9070
+        - cve_id: CVE-2019-9075
+        - cve_id: CVE-2019-9077
+        - cve_id: CVE-2019-9169
+        - cve_id: CVE-2019-9192
+        - cve_id: CVE-2019-9458
+        - cve_id: CVE-2019-9500
+        - cve_id: CVE-2019-9503
+        - cve_id: CVE-2019-9506
+        - cve_id: CVE-2019-9511
+        - cve_id: CVE-2019-9513
+        - cve_id: CVE-2019-9517
+        - cve_id: CVE-2019-9893
+        - cve_id: CVE-2019-9923
+        - cve_id: CVE-2019-9924
+        - cve_id: CVE-2019-9936
+        - cve_id: CVE-2019-9937
+        - cve_id: CVE-2020-0030
+        - cve_id: CVE-2020-0432
+        - cve_id: CVE-2020-0433
+        - cve_id: CVE-2020-0444
+        - cve_id: CVE-2020-0466
+        - cve_id: CVE-2020-10531
+        - cve_id: CVE-2020-10543
+        - cve_id: CVE-2020-10757
+        - cve_id: CVE-2020-10878
+        - cve_id: CVE-2020-11080
+        - cve_id: CVE-2020-11612
+        - cve_id: CVE-2020-11655
+        - cve_id: CVE-2020-11656
+        - cve_id: CVE-2020-11668
+        - cve_id: CVE-2020-11725
+        - cve_id: CVE-2020-11993
+        - cve_id: CVE-2020-12243
+        - cve_id: CVE-2020-12351
+        - cve_id: CVE-2020-12362
+        - cve_id: CVE-2020-12653
+        - cve_id: CVE-2020-12654
+        - cve_id: CVE-2020-12723
+        - cve_id: CVE-2020-13630
+        - cve_id: CVE-2020-13871
+        - cve_id: CVE-2020-13974
+        - cve_id: CVE-2020-14305
+        - cve_id: CVE-2020-14351
+        - cve_id: CVE-2020-14356
+        - cve_id: CVE-2020-14381
+        - cve_id: CVE-2020-14382
+        - cve_id: CVE-2020-14386
+        - cve_id: CVE-2020-16119
+        - cve_id: CVE-2020-16156
+        - cve_id: CVE-2020-1712
+        - cve_id: CVE-2020-1749
+        - cve_id: CVE-2020-1751
+        - cve_id: CVE-2020-1752
+        - cve_id: CVE-2020-17541
+        - cve_id: CVE-2020-24659
+        - cve_id: CVE-2020-25212
+        - cve_id: CVE-2020-25220
+        - cve_id: CVE-2020-25643
+        - cve_id: CVE-2020-25645
+        - cve_id: CVE-2020-25649
+        - cve_id: CVE-2020-25668
+        - cve_id: CVE-2020-25669
+        - cve_id: CVE-2020-25670
+        - cve_id: CVE-2020-25671
+        - cve_id: CVE-2020-25672
+        - cve_id: CVE-2020-25692
+        - cve_id: CVE-2020-25705
+        - cve_id: CVE-2020-25709
+        - cve_id: CVE-2020-25710
+        - cve_id: CVE-2020-26217
+        - cve_id: CVE-2020-26258
+        - cve_id: CVE-2020-27786
+        - cve_id: CVE-2020-27815
+        - cve_id: CVE-2020-28196
+        - cve_id: CVE-2020-28374
+        - cve_id: CVE-2020-28469
+        - cve_id: CVE-2020-29361
+        - cve_id: CVE-2020-29363
+        - cve_id: CVE-2020-29368
+        - cve_id: CVE-2020-29370
+        - cve_id: CVE-2020-29569
+        - cve_id: CVE-2020-29573
+        - cve_id: CVE-2020-29661
+        - cve_id: CVE-2020-35452
+        - cve_id: CVE-2020-35457
+        - cve_id: CVE-2020-35519
+        - cve_id: CVE-2020-36221
+        - cve_id: CVE-2020-36222
+        - cve_id: CVE-2020-36223
+        - cve_id: CVE-2020-36224
+        - cve_id: CVE-2020-36225
+        - cve_id: CVE-2020-36226
+        - cve_id: CVE-2020-36227
+        - cve_id: CVE-2020-36228
+        - cve_id: CVE-2020-36229
+        - cve_id: CVE-2020-36230
+        - cve_id: CVE-2020-36385
+        - cve_id: CVE-2020-36386
+        - cve_id: CVE-2020-36518
+        - cve_id: CVE-2020-6096
+        - cve_id: CVE-2020-7595
+        - cve_id: CVE-2020-8169
+        - cve_id: CVE-2020-8177
+        - cve_id: CVE-2020-8203
+        - cve_id: CVE-2020-8231
+        - cve_id: CVE-2020-8285
+        - cve_id: CVE-2020-8286
+        - cve_id: CVE-2020-8428
+        - cve_id: CVE-2020-8648
+        - cve_id: CVE-2020-9383
+        - cve_id: CVE-2020-9490
+        - cve_id: CVE-2021-0512
+        - cve_id: CVE-2021-0929
+        - cve_id: CVE-2021-1048
+        - cve_id: CVE-2021-20231
+        - cve_id: CVE-2021-20232
+        - cve_id: CVE-2021-20294
+        - cve_id: CVE-2021-20305
+        - cve_id: CVE-2021-20322
+        - cve_id: CVE-2021-21306
+        - cve_id: CVE-2021-21341
+        - cve_id: CVE-2021-21342
+        - cve_id: CVE-2021-21343
+        - cve_id: CVE-2021-21344
+        - cve_id: CVE-2021-21345
+        - cve_id: CVE-2021-21346
+        - cve_id: CVE-2021-21347
+        - cve_id: CVE-2021-21348
+        - cve_id: CVE-2021-21349
+        - cve_id: CVE-2021-21350
+        - cve_id: CVE-2021-21351
+        - cve_id: CVE-2021-22543
+        - cve_id: CVE-2021-22555
+        - cve_id: CVE-2021-22901
+        - cve_id: CVE-2021-22926
+        - cve_id: CVE-2021-22945
+        - cve_id: CVE-2021-22946
+        - cve_id: CVE-2021-23133
+        - cve_id: CVE-2021-23134
+        - cve_id: CVE-2021-23337
+        - cve_id: CVE-2021-23343
+        - cve_id: CVE-2021-23840
+        - cve_id: CVE-2021-26690
+        - cve_id: CVE-2021-26691
+        - cve_id: CVE-2021-26930
+        - cve_id: CVE-2021-27212
+        - cve_id: CVE-2021-27218
+        - cve_id: CVE-2021-27219
+        - cve_id: CVE-2021-27364
+        - cve_id: CVE-2021-27365
+        - cve_id: CVE-2021-27568
+        - cve_id: CVE-2021-28092
+        - cve_id: CVE-2021-28660
+        - cve_id: CVE-2021-28831
+        - cve_id: CVE-2021-29059
+        - cve_id: CVE-2021-29154
+        - cve_id: CVE-2021-29505
+        - cve_id: CVE-2021-30139
+        - cve_id: CVE-2021-30560
+        - cve_id: CVE-2021-31535
+        - cve_id: CVE-2021-31618
+        - cve_id: CVE-2021-32078
+        - cve_id: CVE-2021-32399
+        - cve_id: CVE-2021-33033
+        - cve_id: CVE-2021-33034
+        - cve_id: CVE-2021-33193
+        - cve_id: CVE-2021-3326
+        - cve_id: CVE-2021-3347
+        - cve_id: CVE-2021-33560
+        - cve_id: CVE-2021-33574
+        - cve_id: CVE-2021-33656
+        - cve_id: CVE-2021-33909
+        - cve_id: CVE-2021-3450
+        - cve_id: CVE-2021-34798
+        - cve_id: CVE-2021-3483
+        - cve_id: CVE-2021-34981
+        - cve_id: CVE-2021-3506
+        - cve_id: CVE-2021-3516
+        - cve_id: CVE-2021-3517
+        - cve_id: CVE-2021-3518
+        - cve_id: CVE-2021-3520
+        - cve_id: CVE-2021-3530
+        - cve_id: CVE-2021-3549
+        - cve_id: CVE-2021-3580
+        - cve_id: CVE-2021-35942
+        - cve_id: CVE-2021-3600
+        - cve_id: CVE-2021-3609
+        - cve_id: CVE-2021-3612
+        - cve_id: CVE-2021-36159
+        - cve_id: CVE-2021-3618
+        - cve_id: CVE-2021-36222
+        - cve_id: CVE-2021-3640
+        - cve_id: CVE-2021-3653
+        - cve_id: CVE-2021-36690
+        - cve_id: CVE-2021-36770
+        - cve_id: CVE-2021-3711
+        - cve_id: CVE-2021-3712
+        - cve_id: CVE-2021-37136
+        - cve_id: CVE-2021-37137
+        - cve_id: CVE-2021-3715
+        - cve_id: CVE-2021-3752
+        - cve_id: CVE-2021-37576
+        - cve_id: CVE-2021-3760
+        - cve_id: CVE-2021-37714
+        - cve_id: CVE-2021-3803
+        - cve_id: CVE-2021-3807
+        - cve_id: CVE-2021-38160
+        - cve_id: CVE-2021-38207
+        - cve_id: CVE-2021-38300
+        - cve_id: CVE-2021-3847
+        - cve_id: CVE-2021-3864
+        - cve_id: CVE-2021-39139
+        - cve_id: CVE-2021-39141
+        - cve_id: CVE-2021-39144
+        - cve_id: CVE-2021-39145
+        - cve_id: CVE-2021-39146
+        - cve_id: CVE-2021-39147
+        - cve_id: CVE-2021-39148
+        - cve_id: CVE-2021-39149
+        - cve_id: CVE-2021-39150
+        - cve_id: CVE-2021-39151
+        - cve_id: CVE-2021-39152
+        - cve_id: CVE-2021-39153
+        - cve_id: CVE-2021-39154
+        - cve_id: CVE-2021-39275
+        - cve_id: CVE-2021-39537
+        - cve_id: CVE-2021-39634
+        - cve_id: CVE-2021-39685
+        - cve_id: CVE-2021-39686
+        - cve_id: CVE-2021-39698
+        - cve_id: CVE-2021-39713
+        - cve_id: CVE-2021-39714
+        - cve_id: CVE-2021-3999
+        - cve_id: CVE-2021-40145
+        - cve_id: CVE-2021-40438
+        - cve_id: CVE-2021-4044
+        - cve_id: CVE-2021-40490
+        - cve_id: CVE-2021-4083
+        - cve_id: CVE-2021-4157
+        - cve_id: CVE-2021-41864
+        - cve_id: CVE-2021-4197
+        - cve_id: CVE-2021-42008
+        - cve_id: CVE-2021-4202
+        - cve_id: CVE-2021-42378
+        - cve_id: CVE-2021-42379
+        - cve_id: CVE-2021-42380
+        - cve_id: CVE-2021-42381
+        - cve_id: CVE-2021-42382
+        - cve_id: CVE-2021-42383
+        - cve_id: CVE-2021-42384
+        - cve_id: CVE-2021-42385
+        - cve_id: CVE-2021-42386
+        - cve_id: CVE-2021-43396
+        - cve_id: CVE-2021-43527
+        - cve_id: CVE-2021-43618
+        - cve_id: CVE-2021-43859
+        - cve_id: CVE-2021-44224
+        - cve_id: CVE-2021-44228
+        - cve_id: CVE-2021-44790
+        - cve_id: CVE-2021-44906
+        - cve_id: CVE-2021-45046
+        - cve_id: CVE-2021-45078
+        - cve_id: CVE-2021-45469
+        - cve_id: CVE-2021-45485
+        - cve_id: CVE-2021-45960
+        - cve_id: CVE-2021-46143
+        - cve_id: CVE-2021-46828
+        - cve_id: CVE-2022-0330
+        - cve_id: CVE-2022-0435
+        - cve_id: CVE-2022-0492
+        - cve_id: CVE-2022-0686
+        - cve_id: CVE-2022-0691
+        - cve_id: CVE-2022-0778
+        - cve_id: CVE-2022-0891
+        - cve_id: CVE-2022-1011
+        - cve_id: CVE-2022-1012
+        - cve_id: CVE-2022-1048
+        - cve_id: CVE-2022-1097
+        - cve_id: CVE-2022-1247
+        - cve_id: CVE-2022-1271
+        - cve_id: CVE-2022-1292
+        - cve_id: CVE-2022-1304
+        - cve_id: CVE-2022-1353
+        - cve_id: CVE-2022-1419
+        - cve_id: CVE-2022-1473
+        - cve_id: CVE-2022-1652
+        - cve_id: CVE-2022-1664
+        - cve_id: CVE-2022-1679
+        - cve_id: CVE-2022-1729
+        - cve_id: CVE-2022-1734
+        - cve_id: CVE-2022-20141
+        - cve_id: CVE-2022-20368
+        - cve_id: CVE-2022-2068
+        - cve_id: CVE-2022-2097
+        - cve_id: CVE-2022-21505
+        - cve_id: CVE-2022-21680
+        - cve_id: CVE-2022-21681
+        - cve_id: CVE-2022-22576
+        - cve_id: CVE-2022-22719
+        - cve_id: CVE-2022-22720
+        - cve_id: CVE-2022-22721
+        - cve_id: CVE-2022-2274
+        - cve_id: CVE-2022-22822
+        - cve_id: CVE-2022-22823
+        - cve_id: CVE-2022-22824
+        - cve_id: CVE-2022-22825
+        - cve_id: CVE-2022-22826
+        - cve_id: CVE-2022-22827
+        - cve_id: CVE-2022-23036
+        - cve_id: CVE-2022-23037
+        - cve_id: CVE-2022-23038
+        - cve_id: CVE-2022-23039
+        - cve_id: CVE-2022-23040
+        - cve_id: CVE-2022-23041
+        - cve_id: CVE-2022-23042
+        - cve_id: CVE-2022-23218
+        - cve_id: CVE-2022-23219
+        - cve_id: CVE-2022-2327
+        - cve_id: CVE-2022-23308
+        - cve_id: CVE-2022-23852
+        - cve_id: CVE-2022-23901
+        - cve_id: CVE-2022-23943
+        - cve_id: CVE-2022-23990
+        - cve_id: CVE-2022-24407
+        - cve_id: CVE-2022-24958
+        - cve_id: CVE-2022-2509
+        - cve_id: CVE-2022-25235
+        - cve_id: CVE-2022-25236
+        - cve_id: CVE-2022-2526
+        - cve_id: CVE-2022-25265
+        - cve_id: CVE-2022-25314
+        - cve_id: CVE-2022-25315
+        - cve_id: CVE-2022-2585
+        - cve_id: CVE-2022-25858
+        - cve_id: CVE-2022-2590
+        - cve_id: CVE-2022-26365
+        - cve_id: CVE-2022-26377
+        - cve_id: CVE-2022-2639
+        - cve_id: CVE-2022-26490
+        - cve_id: CVE-2022-27223
+        - cve_id: CVE-2022-27404
+        - cve_id: CVE-2022-27405
+        - cve_id: CVE-2022-27406
+        - cve_id: CVE-2022-27775
+        - cve_id: CVE-2022-27780
+        - cve_id: CVE-2022-27781
+        - cve_id: CVE-2022-27782
+        - cve_id: CVE-2022-28356
+        - cve_id: CVE-2022-28388
+        - cve_id: CVE-2022-28390
+        - cve_id: CVE-2022-28391
+        - cve_id: CVE-2022-28615
+        - cve_id: CVE-2022-2867
+        - cve_id: CVE-2022-2868
+        - cve_id: CVE-2022-2869
+        - cve_id: CVE-2022-28805
+        - cve_id: CVE-2022-29155
+        - cve_id: CVE-2022-29162
+        - cve_id: CVE-2022-2938
+        - cve_id: CVE-2022-29404
+        - cve_id: CVE-2022-29458
+        - cve_id: CVE-2022-2959
+        - cve_id: CVE-2022-2961
+        - cve_id: CVE-2022-2978
+        - cve_id: CVE-2022-30522
+        - cve_id: CVE-2022-30556
+        - cve_id: CVE-2022-30594
+        - cve_id: CVE-2022-31782
+        - cve_id: CVE-2022-31813
+        - cve_id: CVE-2022-32250
+        - cve_id: CVE-2022-32981
+        - cve_id: CVE-2022-33099
+        - cve_id: CVE-2022-33740
+        - cve_id: CVE-2022-33741
+        - cve_id: CVE-2022-33742
+        - cve_id: CVE-2022-33743
+        - cve_id: CVE-2022-34918
+        - cve_id: CVE-2022-35737
+    severity: low
+    teams:
+    - name: VF-CDAAS_DEV
+      role: 3
+    - name: VF-CDAAS_OPS
+      role: 2
+    - name: VF-CDAAS_SERVICE-ACCOUNTS
+      role: 2
+  - name: development-vf-cdaas
+    prevent_vul: false
+    prevent_vul_replicas: false
+    teams:
+    - name: VF-CDAAS_SERVICE-ACCOUNTS
+      role: 3
+  - name: vf-cdaas-flux-demo
+    prevent_vul: true
+    prevent_vul_replicas: true
+    reuse_sys_cve_allowlist: false
+    cve_allowlist:
+      items:  
+        - cve_id: CVE-2013-7445
+        - cve_id: CVE-2016-9318
+        - cve_id: CVE-2017-0630
+        - cve_id: CVE-2017-16932
+        - cve_id: CVE-2018-12886
+        - cve_id: CVE-2018-21232
+        - cve_id: CVE-2018-3693
+        - cve_id: CVE-2019-12290
+        - cve_id: CVE-2019-12904
+        - cve_id: CVE-2019-13115
+        - cve_id: CVE-2019-13627
+        - cve_id: CVE-2019-19126
+        - cve_id: CVE-2019-19378
+        - cve_id: CVE-2019-19449
+        - cve_id: CVE-2019-19814
+        - cve_id: CVE-2019-20367
+        - cve_id: CVE-2019-20794
+        - cve_id: CVE-2019-25013
+        - cve_id: CVE-2019-3843
+        - cve_id: CVE-2019-3844
+        - cve_id: CVE-2020-10029
+        - cve_id: CVE-2020-10135
+        - cve_id: CVE-2020-11725
+        - cve_id: CVE-2020-12362
+        - cve_id: CVE-2020-12363
+        - cve_id: CVE-2020-12364
+        - cve_id: CVE-2020-14155
+        - cve_id: CVE-2020-14304
+        - cve_id: CVE-2020-15802
+        - cve_id: CVE-2020-16119
+        - cve_id: CVE-2020-1751
+        - cve_id: CVE-2020-1752
+        - cve_id: CVE-2020-25670
+        - cve_id: CVE-2020-25671
+        - cve_id: CVE-2020-25672
+        - cve_id: CVE-2020-25673
+        - cve_id: CVE-2020-26159
+        - cve_id: CVE-2020-27618
+        - cve_id: CVE-2020-27820
+        - cve_id: CVE-2020-27835
+        - cve_id: CVE-2020-29374
+        - cve_id: CVE-2020-35501
+        - cve_id: CVE-2020-8177
+        - cve_id: CVE-2020-8231
+        - cve_id: CVE-2020-8284
+        - cve_id: CVE-2020-8285
+        - cve_id: CVE-2020-8286
+        - cve_id: CVE-2020-9794
+        - cve_id: CVE-2021-23840
+        - cve_id: CVE-2021-23841
+        - cve_id: CVE-2021-26930
+        - cve_id: CVE-2021-26931
+        - cve_id: CVE-2021-26932
+        - cve_id: CVE-2021-27212
+        - cve_id: CVE-2021-27218
+        - cve_id: CVE-2021-27219
+        - cve_id: CVE-2021-27645
+        - cve_id: CVE-2021-3326
+        - cve_id: CVE-2021-3348  
+    teams:
+    - name: VF-CDAAS_DEV
+      role: 3
+    - name: VF-CDAAS_OPS
+      role: 2
+    - name: VF-CDAAS_SERVICE-ACCOUNTS
+      role: 2
+control_repos:
+  - name: VF-CDAAS-AZURE-AD-SOE
+    private: true
+    teams:
+      - name: VF-CDAAS_DEV
+        permission: push
+      - name: VF-CDAAS_FUNCTIONAL-USERS
+        permission: push        
+      - name: VF-GKS-AZUREAD-OWNERS
+        permission: pull
+      - name: VF-GKS-TAAS-STAKEHOLDERS
+        permission: pull
+      - name: VF-CDAAS_FUNCTIONAL-USERS-RO
+        permission: pull
+      - name: VF-GKS-PUBLIC-DEVOPSTEAM
+        permission: pull
+      - name: GKS-PUBLIC-CLOUD-DEVELOPMENT
+        permission: pull
+  - name: VF-CDAAS-KEYCLOAK-SOE
+    private: true
+    teams:
+      - name: VF-CDAAS_DEV
+        permission: push
+      - name: VF-CDAAS_FUNCTIONAL-USERS
+        permission: push        
+      - name: VF-CDAAS_FUNCTIONAL-USERS-RO
+        permission: pull   
+  - name: VF-CDAAS-CLAIR
+    private: true
+    teams:
+      - name: VF-CDAAS_DEV
+        permission: push
+      - name: VF-CDAAS_FUNCTIONAL-USERS
+        permission: push        
+      - name: VF-CDAAS_FUNCTIONAL-USERS-RO
+        permission: pull        
+  - name: VF-CDAAS-PIPELINES-AS-CODE
+    private: true
+    teams:
+      - name: VF-CDAAS_DEV
+        permission: push
+  - name: VF-CDAAS-Dockerfiles
+    private: true
+    teams:
+      - name: VF-CDAAS_DEV
+        permission: push
+      - name: VF-CDAAS_FUNCTIONAL-USERS
+        permission: pull
+  - name: VF-CDAAS-FLUX-DEMO
+    private: false
+    teams:
+      - name: VF-CDAAS_DEV
+        permission: push
+      - name: VF-CDAAS_FUNCTIONAL-USERS
+        permission: push
+      - name: VF-CDAAS_FUNCTIONAL-USERS-RO
+        permission: pull
+  - name: VF-CDAAS-CALICO-DEMO
+    private: false
+    teams:
+      - name: VF-CDAAS_DEV
+        permission: push
+      - name: VF-CDAAS_FUNCTIONAL-USERS
+        permission: push
+      - name: VF-CDAAS_FUNCTIONAL-USERS-RO
+        permission: pull
+  - name: Ansible-VMware-vRealize-Automation
+    private: false
+    teams:
+      - name: VF-CDAAS_DEV
+        permission: push
+  - name: VF-GKS-SMALLSTEP
+    private: true
+    has_issues: true
+    teams:
+      - name: VF-CDAAS_DEV
+        permission: pull
+      - name: VF-CDAAS_FUNCTIONAL-USERS-RO
+        permission: pull
+      - name: VF-CDAAS_FUNCTIONAL-USERS
+        permission: push
+      - name: VF-GKS-PUBLIC-DEVOPSTEAM
+        permission: push
+      - name: VF-GKS-OPERATIONS
+        permission: pull
+      - name: VF-GKS-SECURITY
+        permission: pull
+      - name: VF-DIGITAL-ENABLERS
+        permission: pull
+  - name: VF-CDAAS-Delete-me
+    private: true
+    teams:
+      - name: VF-CDAAS_DEV
+        permission: push
+      - name: VF-CDAAS_FUNCTIONAL-USERS
+        permission: push
+      - name: VF-CDAAS_FUNCTIONAL-USERS-RO
+        permission: pull
+  - name: vfsd-cdaas
+    private: true
+    teams:
+      - name: VF-CDAAS_DEV
+        permission: push
+  - name: vfsd-r10kcapsule
+    private: true
+    teams:
+      - name: VF-CDAAS_DEV
+        permission: push
+  - name: harbor-ansible
+    private: false
+    teams:
+      - name: VF-CDAAS_DEV
+        permission: push
+  - name: secret-management
+    private: true
+    teams:
+      - name: VF-CDAAS_DEV
+        permission: push
+      - name: VF-CDAAS_FUNCTIONAL-USERS-RO
+        permission: pull
+  - name: go-secrets
+    private: true
+    teams:
+      - name: VF-CDAAS_DEV
+        permission: push
+      - name: VF-CDAAS_FUNCTIONAL-USERS-RO
+        permission: pull
+      - name: PCS-GCP-DevOpsLead
+        permission: pull
+  - name: VF-CDAAS-GOCD-SECRETS
+    private: true
+    teams:
+      - name: VF-CDAAS_DEV
+        permission: push
+      - name: VF-CDAAS_FUNCTIONAL-USERS-RO
+        permission: pull
+  - name: Harbor_Splunk_Scripts
+    private: true
+    teams:
+      - name: VF-CDAAS_DEV
+        permission: push
+      - name: VF-CDAAS_FUNCTIONAL-USERS
+        permission: pull
+  - name: Harbor_Dublin
+    private: true
+    teams:
+      - name: VF-CDAAS_DEV
+        permission: push
+      - name: VF-CDAAS_FUNCTIONAL-USERS
+        permission: pull
+  - name: Harbor-Report
+    private: true
+    teams:
+      - name: VF-CDAAS_DEV
+        permission: push
+      - name: VF-CDAAS_FUNCTIONAL-USERS-RO
+        permission: pull
+  - name: VF-CDAAS-GitHub-App
+    private: true
+    teams:
+      - name: VF-CDAAS_DEV
+        permission: push
+cluster_roles:
+  - name: cluster-view
+    value: Cluster.view
+    description: "Allows read-only access to see most objects in a namespace. It does not allow viewing roles or role bindings.  This role does not allow viewing Secrets, since reading the contents of Secrets enables access to ServiceAccount credentials in the namespace, which would allow API access as any ServiceAccount in the namespace (a form of privilege escalation)."
+    teams:
+      - VF-CDAAS_DEV
+      - VF-GKS-PUBLIC-DEVOPSTEAM
+      - VF-GKS-SECURITY
+      - VF-GKS-PROJECT-STAKEHOLDERS
+    clusters:
+      - eks-gdc-vf-gdc-api-gw-dev-yellow
+      - eks-gdc-vf-gdc-api-gw-dev-red
+      - eks-gdc-vf-gdc-api-gw-dev-blue
+      - eks-gdc-vf-gdc-api-gw-test-blue
+      - eks-gdc-vf-gdc-api-gw-stage-blue
+      - eks-gdc-vf-gdc-api-gw-prod-blue
+      - eks-argocd-azuread-qct6f
+      - eks-argocd-azuread-prod-k52p0
+  - name: cluster-edit
+    value: Cluster.edit
+    description: "Allows read/write access to most objects in a namespace.  This role does not allow viewing or modifying roles or role bindings. However, this role allows accessing Secrets and running Pods as any ServiceAccount in the namespace, so it can be used to gain the API access levels of any ServiceAccount in the namespace."
+    teams:
+      - VF-CDAAS_ADMIN
+      - VF-GKS-PUBLIC-DEVOPSTEAM
+    clusters:
+      - eks-gdc-vf-gdc-api-gw-dev-yellow
+      - eks-gdc-vf-gdc-api-gw-dev-red
+      - eks-gdc-vf-gdc-api-gw-dev-blue
+      - eks-gdc-vf-gdc-api-gw-test-blue
+      - eks-gdc-vf-gdc-api-gw-stage-blue
+      - eks-gdc-vf-gdc-api-gw-prod-blue
+      - eks-argocd-azuread-qct6f
+      - eks-argocd-azuread-prod-k52p0
+  - name: namespace-pcs-view
+    value: Namespace.pcs.view
+    description: "Allows read-only access to see most objects in a namespace. It does not allow viewing roles or role bindings.  This role does not allow viewing Secrets, since reading the contents of Secrets enables access to ServiceAccount credentials in the namespace, which would allow API access as any ServiceAccount in the namespace (a form of privilege escalation)."
+    teams:
+      - VF-CDAAS_PCS
+      - VF-CDAAS_ADMIN
+    clusters:
+      - eks-gdc-vf-gdc-api-gw-dev-yellow
+      - eks-gdc-vf-gdc-api-gw-dev-red
