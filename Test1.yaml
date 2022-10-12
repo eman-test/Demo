@@ -31,7 +31,7 @@ users:
     ad_username: adelh2
     github_username: hadeer-adel
     role: admin
-  - username: dima.elkhosos@vodafone.com
+  #- username: dima.elkhosos@vodafone.com
     ad_username: elkhososd
     role: admin
   - username: VFGROUPSVC.vfcdaasd@vodafone.com
