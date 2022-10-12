@@ -49,6 +49,8 @@ users:
   #- username: VSSISVC.GKS-GREEN@vodafone.com
   #  ad_username: VSSISVC.GKS-GREEN
   #  service_account: true
+  - username: arwa.fathy@vodafone.com
+    ad_username: VFSVC-CDaaS-SA2
 roles:
   - name: VF-CDAAS_DEV
     users:
