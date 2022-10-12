@@ -1,0 +1,77 @@
+apiVersion: business_service.vfcdaas/v1
+name: Amdocs
+users:
+  - username: shreya.ram1@vodafone.com
+    ad_username: Shreya.Ram1
+  - username: mamta.kanotra@vodafone.com
+    ad_username: Mamta.Kanotra
+  - username: vivek.nigam1@vodafone.com
+    ad_username: NigamV
+  - username: eman.gamal1@vodafone.com
+    ad_username: gamale  
+  
+roles:
+  - name: Amdocs-DEVOPS
+    users:
+      - shreya.ram1@vodafone.com
+      - mamta.kanotra@vodafone.com
+      - vivek.nigam1@vodafone.com
+  - name: Amdocs-FUNCTIONAL-USERS-RW
+    users:
+      - vfcdaas@vodafone.com
+  - name: Amdocs-FUNCTIONAL-USERS-RO
+    users:
+      - VFSVC-CDaaS-SA1@vodafone.com
+  - name: Amdocs-CDAAS-SERVICE-ACCOUNTS
+    users:
+      - VFGROUPSVC.vfcdaasd@vodafone.com
+      - VFGROUPSVC-vfcdaasc@vodafone.com
+gocd_pipeline_groups:
+  - name: Amdocs-SELF-MANAGED
+    teams:
+      - name: Amdocs-DEVOPS
+        permission: view
+      - name: Amdocs-DEVOPS
+        permission: operate
+harbor_projects:
+  - name: amdocs
+    public: true
+    prevent_vul: true
+    prevent_vul_replicas: false
+    reuse_sys_cve_allowlist: false
+    cve_allowlist:
+     items:
+       - cve_id: RHEA-2021:1580
+       - cve_id: CVE-2016-4970
+       - cve_id: CVE-2017-15095
+       - cve_id: CVE-2017-17485  
+    teams:
+    - name: Amdocs-DEVOPS
+      role: 4
+    - name: Amdocs-CDAAS-SERVICE-ACCOUNTS
+      role: 2
+  - name: amdocs_charts
+    public: false
+    prevent_vul: true
+    prevent_vul_replicas: true
+    reuse_sys_cve_allowlist: true 
+    teams:
+    - name: Amdocs-DEVOPS
+      role: 4
+    - name: Amdocs-CDAAS-SERVICE-ACCOUNTS
+      role: 2
+control_repos:
+  - name: Amdocs-IMAGES
+    private: true
+    teams:
+      - name: Amdocs-FUNCTIONAL-USERS-RO
+        permission: pull
+      - name: Amdocs-DEVOPS
+        permission: push
+  - name: Amdocs-HelmCharts
+    private: true
+    teams:
+      - name: Amdocs-FUNCTIONAL-USERS-RO
+        permission: pull
+      - name: Amdocs-DEVOPS
+        permission: push
