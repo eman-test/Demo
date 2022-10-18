@@ -7,7 +7,7 @@ users:
   - username: vfcdaas@vodafone.com
     ad_username: vfcdaas
     functional_account: true
-  #- username: mohamed.ramadan1@vodafone.com
+  - username: mohamed.ramadan1@vodafone.com
     ad_username: RamadanM5
     role: admin
   - username: dalia.ezzat@vodafone.com
